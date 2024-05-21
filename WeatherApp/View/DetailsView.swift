@@ -8,23 +8,35 @@
 import SwiftUI
 
 struct DetailsView: View {
-    var tempHourlyList : [HourlyForecast] = []
+    var tempHourlyList : [HourlyForecast]?
+    var isDay:Bool
     var body: some View {
         ScrollView{
-            List(tempHourlyList){ temp in
+            List(tempHourlyList ?? []){ temp in
                 HStack{
-                    Text("temp.time_epoch")
-                    Image("cloud")
-                        .frame(width:40,height: 40).padding()
-                    Text("temp.temp_c")
+                    textStyle(txt:Utils.extractTime(from: temp.time!) ?? "")
+                        
+                    Image(uiImage: Utils.getImageFromUrl(imageCode: temp.condition?.code ?? 0.0)!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:40,height: 40)
+                        .padding()
+                    textStyle(txt:"\(String(temp.temp_c ?? 0.0))°")
                 }.padding()
             }
         }.background(Image("morning"))
+    }
+    func textStyle(txt:String) -> Text{
+        let color:Color = isDay ? .black : .white
+       return Text(txt)
+            .font(.system(size: 24))
+            .foregroundColor(color)
+        
     }
 }
 
 struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailsView()
+        DetailsView(isDay: true)
     }
 }

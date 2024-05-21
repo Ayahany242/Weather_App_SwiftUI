@@ -13,7 +13,7 @@ class ViewModel:ViewModelProtocol{
         Network.shared.fetchData {[weak self] result in
             switch result {
             case .success(let success):
-                print("Success ViewModel \(success.current)")
+                //print("Success ViewModel \(success.current)")
                 self?.notifyViewCurrentData(success.current!)
                 self?.notifyViewForcastData((success.forecast?.forecastday!)!)
                 self?.notifyViewLocationData(success.location!)

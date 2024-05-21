@@ -62,4 +62,16 @@ class Utils{
         }
     }
 
+    static func extractTime(from dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        if let date = dateFormatter.date(from: dateString) {
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm"
+            return timeFormatter.string(from: date)
+        } else {
+            return nil
+        }
+    }
+   
 }

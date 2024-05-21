@@ -10,31 +10,36 @@ import SDWebImageSwiftUI
 
 struct ForecastCellView: View {
     var weatherData : ForecastDay?
-  
+    var isDay:Bool
     var body: some View {
         HStack{
-            Text(dateFormatter.string(from: Date(timeIntervalSince1970:weatherData?.date_epoch ?? 0.0)))
+            textStyle(txt: Utils.dayOfWeek(fromTimestamp:  weatherData?.date_epoch ?? 0.0) ?? "")
+            
                 //.foregroundColor(.white)
             Image(uiImage: Utils.getImageFromUrl(imageCode: weatherData?.day?.condition?.code ?? 0.0)!)
                 .resizable()
                 .scaledToFit()
                 .frame(width:40,height: 40)
                 .padding()
-            Text("\(String(weatherData?.day?.mintemp_c ?? 0))° - \(String(weatherData?.day?.maxtemp_c ?? 0))°")
+            textStyle(txt:"\(String(weatherData?.day?.mintemp_c ?? 0))° - \(String(weatherData?.day?.maxtemp_c ?? 0))°")
                 //.foregroundColor(.white)
         }.padding(.horizontal,4)
             .frame(height: 30)
     }
     
-let dateFormatter: DateFormatter = {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "EEEE"
-           return formatter
-       }()
+    
+    func textStyle(txt:String) -> Text{
+        let color:Color = isDay ? .black : .white
+        print("weather forcast \(weatherData)")
+       return Text(txt)
+            .font(.system(size: 18))
+            .foregroundColor(color)
+        
+    }
 }
 
 struct ForecastCellView_Previews: PreviewProvider {
     static var previews: some View {
-        ForecastCellView()
+        ForecastCellView(isDay: true)
     }
 }

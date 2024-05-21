@@ -29,7 +29,7 @@ class Network:NetworkProtocol{
             case .success(let data):
                 do{
                     let jsonData = try JSONDecoder().decode(WeatherResponse.self, from: data!)
-                    print(jsonData.current)
+                    //print(jsonData.current)
                     print("Success")
                     complationHandler(.success(jsonData))
                 }catch{

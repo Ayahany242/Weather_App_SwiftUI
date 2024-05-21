@@ -48,9 +48,8 @@ struct ContentView: View {
                         .background(color)
                         .padding(EdgeInsets(.init(top: 50, leading: 0, bottom: 0, trailing: 0)))
                     List(forecastDaysList) { weather in
-                        NavigationLink(destination:DetailsView()){
-                            ForecastCellView(weatherData: weather)
-                                
+                        NavigationLink(destination:DetailsView(tempHourlyList: weather.hour!, isDay: isDay)){
+                            ForecastCellView(weatherData: weather, isDay: isDay)
                         }.listRowBackground(Color.clear)
                             .listRowSeparatorTint(color)
                         
@@ -103,6 +102,7 @@ struct ContentView: View {
             viewModel.notifyViewForcastData = { forcast in
                 print("ForcastData Notify \(forcast.count)")
                 self.forecastDaysList = forcast
+                
                 
             }
             viewModel.notifyViewLocationData = { location in
