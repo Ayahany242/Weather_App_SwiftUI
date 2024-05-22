@@ -14,7 +14,8 @@ struct ContentView: View {
     @State var location:WeatherLocation?
     @State var forecastDaysList: [ForecastDay] = []
     @State var isDay:Bool = true
-   
+    @ObservedObject var  locationManager = LocationManager()
+  
     var body: some
     View {
         let backgroundImage = isDay ? "dayBackground1" : "night"
@@ -36,25 +37,26 @@ struct ContentView: View {
                             .padding(.top,-20)
                             .padding(.bottom,-10)
                     }.padding(16)
-                   
-                    Text("3-Day forecast".uppercased())
-                        .font(.subheadline)
-                        .foregroundColor(color)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.clear)
-                        .padding(EdgeInsets(.init(top: 24, leading: 45, bottom: -80, trailing: 16)))
-                    Divider()
+                    VStack{
+                        Text("3-Day forecast".uppercased())
+                            .font(.subheadline)
+                            .foregroundColor(color)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.clear)
+                        Divider()
                         .background(color)
-                        .padding(EdgeInsets(.init(top: 50, leading: 0, bottom: 0, trailing: 0)))
-                    List(forecastDaysList) { weather in
-                        NavigationLink(destination:DetailsView(tempHourlyList: weather.hour!, isDay: isDay)){
+                    }.padding(EdgeInsets(.init(top: 24, leading: 16, bottom: -30, trailing: 16)))
+                    
+                    List(forecastDaysList, id: \.date) { weather in
+                        NavigationLink(destination: DetailsView(tempHourlyList: weather.hour ?? [], isDay: isDay, dayOfWeek: weather.date ?? "")) {
                             ForecastCellView(weatherData: weather, isDay: isDay)
                         }.listRowBackground(Color.clear)
-                            .listRowSeparatorTint(color)
-                        
+                        .listRowSeparatorTint(color)
+                        .navigationBarHidden(true)
                     }.scrollContentBackground(.hidden)
                         .frame(height: 180)
+                        
                     HStack{
                         VStack{
                             Text("Visiblity".uppercased())
@@ -94,13 +96,18 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(.all))
             
         }.onAppear{
+            locationManager.requestLocation()
+
+           // viewModel.getDataFromNetwork(lat: locationManager.latitude, long: locationManager.longitude)
             viewModel.getDataFromNetwork()
             viewModel.notifyViewCurrentData = { current in
                 print("Current Notify \(String(describing: current.temp_c))")
                 self.currentData = current
             }
             viewModel.notifyViewForcastData = { forcast in
-                print("ForcastData Notify \(forcast.count)")
+                print("ForcastData Notify \(forcast[0].hour?.count)")
+                print("ForcastData Notify \(forcast[1].hour?.count)")
+                print("ForcastData Notify \(forcast[2].hour?.count)")
                 self.forecastDaysList = forcast
                 
                 

@@ -48,15 +48,14 @@ class Utils{
             return (hour >= 5 && hour < 18)
         }
     
-    static func dayOfWeek(fromTimestamp timestamp: TimeInterval) -> String? {
-        let date = Date(timeIntervalSince1970: timestamp)
-        let calendar = Calendar.current
-        let dayOfWeek = calendar.component(.weekday, from: date)
+    static func dayOfWeek(fromTimestamp time: String) -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "EEEE"
-        if let weekdayDate = calendar.date(bySetting: .weekday, value: dayOfWeek, of: date) {
-            return dateFormatter.string(from: weekdayDate)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: time){
+            let calendar = Calendar.current
+            let dayOfWeek = calendar.component(.weekday, from: date)
+            let dayOfWeekString = dateFormatter.weekdaySymbols[dayOfWeek - 1]
+            return dayOfWeekString
         } else {
             return nil
         }

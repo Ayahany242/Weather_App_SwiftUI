@@ -13,14 +13,15 @@ struct ForecastCellView: View {
     var isDay:Bool
     var body: some View {
         HStack{
-            textStyle(txt: Utils.dayOfWeek(fromTimestamp:  weatherData?.date_epoch ?? 0.0) ?? "")
-            
+            textStyle(txt: Utils.dayOfWeek(fromTimestamp:  weatherData?.date ?? "unknown") ?? "unknown")
                 //.foregroundColor(.white)
+            Spacer()
             Image(uiImage: Utils.getImageFromUrl(imageCode: weatherData?.day?.condition?.code ?? 0.0)!)
                 .resizable()
                 .scaledToFit()
                 .frame(width:40,height: 40)
                 .padding()
+            Spacer()
             textStyle(txt:"\(String(weatherData?.day?.mintemp_c ?? 0))° - \(String(weatherData?.day?.maxtemp_c ?? 0))°")
                 //.foregroundColor(.white)
         }.padding(.horizontal,4)
@@ -30,7 +31,7 @@ struct ForecastCellView: View {
     
     func textStyle(txt:String) -> Text{
         let color:Color = isDay ? .black : .white
-        print("weather forcast \(weatherData)")
+        print("weather forcast \(weatherData?.date)")
        return Text(txt)
             .font(.system(size: 18))
             .foregroundColor(color)
