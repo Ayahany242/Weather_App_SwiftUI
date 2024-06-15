@@ -12,19 +12,20 @@ import CoreLocation
 class ViewModel:ViewModelProtocol{
     
    
-//    func getDataFromNetwork(lat:Double,long:Double) {
-//        Network.shared.fetchData(lat: lat, long: lat) {[weak self] result in
-//            switch result {
-//            case .success(let success):
-//                self?.notifyViewCurrentData(success.current!)
-//                self?.notifyViewForcastData((success.forecast?.forecastday!)!)
-//                self?.notifyViewLocationData(success.location!)
-//            case .failure(let failure):
-//                self?.failedWithError(failure.localizedDescription)
-//            }
-//
-//        }
-//    }
+    func getDataFromNetwork(lat:Double,long:Double) {
+        Network.shared.fetchData(lat: lat, long: lat) {[weak self] result in
+            switch result {
+            case .success(let success):
+                print("lat home\(lat)")
+                self?.notifyViewCurrentData(success.current!)
+                self?.notifyViewForcastData((success.forecast?.forecastday!)!)
+                self?.notifyViewLocationData(success.location!)
+            case .failure(let failure):
+                self?.failedWithError(failure.localizedDescription)
+            }
+
+        }
+    }
     func getDataFromNetwork() {
            Network.shared.fetchData{[weak self] result in
                switch result {

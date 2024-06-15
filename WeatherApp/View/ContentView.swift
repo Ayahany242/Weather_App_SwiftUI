@@ -15,7 +15,9 @@ struct ContentView: View {
     @State var forecastDaysList: [ForecastDay] = []
     @State var isDay:Bool = true
     @ObservedObject var  locationManager = LocationManager()
-  
+    init(){
+        //locationManager.requestLocation()
+    }
     var body: some
     View {
         let backgroundImage = isDay ? "dayBackground1" : "night"
@@ -30,7 +32,8 @@ struct ContentView: View {
                              .fontWeight(.bold)
                         textStyle(txt: currentData?.condition?.text ?? "")
                         textStyle(txt: "H: \(forecastDaysList.first?.day?.maxtemp_c ?? 0.0)\t L:\(forecastDaysList.first?.day?.mintemp_c ?? 0.0)")
-                        Image(uiImage: Utils.getImageFromUrl(imageCode: currentData?.condition?.code ?? 0.0)!)
+                        //Image(uiImage: Utils.getImageFromUrl(imageCode: currentData?.condition?.code ?? 0.0)!)
+                        WebImage(url: URL(string: "https:\( currentData?.condition!.icon! ?? "")"))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60,height: 60)
@@ -96,13 +99,15 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(.all))
             
         }.onAppear{
-            locationManager.requestLocation()
-
-           // viewModel.getDataFromNetwork(lat: locationManager.latitude, long: locationManager.longitude)
+            //locationManager.requestLocation()
+            print("lat: \(locationManager.latitude), long: \(locationManager.longitude) ")
+            //viewModel.getDataFromNetwork(lat: locationManager.latitude, long: locationManager.longitude)
             viewModel.getDataFromNetwork()
             viewModel.notifyViewCurrentData = { current in
                 print("Current Notify \(String(describing: current.temp_c))")
+                
                 self.currentData = current
+                print("https:\( currentData!.condition!.icon!)")
             }
             viewModel.notifyViewForcastData = { forcast in
                 print("ForcastData Notify \(forcast[0].hour?.count)")

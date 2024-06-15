@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ViewModelProtocol{
-    //func getDataFromNetwork(lat:Double,long:Double)
+    func getDataFromNetwork(lat:Double,long:Double)
     func getDataFromNetwork()
     var notifyViewCurrentData: ((WeatherCurrent)->()) { get set }
     var notifyViewForcastData: (([ForecastDay])->()) { get set }

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol NetworkProtocol{
-   // func fetchData(lat: Double, long: Double, complationHandler: @escaping (Result<WeatherResponse,Error>)-> Void)
+    func fetchData(lat: Double, long: Double, complationHandler: @escaping (Result<WeatherResponse,Error>)-> Void)
     func fetchData(complationHandler: @escaping (Result<WeatherResponse,Error>)-> Void)
 }

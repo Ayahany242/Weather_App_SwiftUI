@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -49,10 +50,11 @@ struct DetailsView: View {
                                HStack {
                                    textStyle(txt: Utils.extractTime(from: temp.time!) ?? "")
                                    Spacer()
-                                   Image(uiImage: Utils.getImageFromUrl(imageCode: temp.condition?.code ?? 0.0)!)
+                                   //Image(uiImage: Utils.getImageFromUrl(imageCode: temp.condition?.code ?? 0.0)!)
+                                   WebImage(url: URL(string: "https:\( temp.condition!.icon!)"))
                                        .resizable()
                                        .scaledToFit()
-                                       .frame(width: 40, height: 40)
+                                       .frame(width: 60, height: 60)
                                        .padding()
                                    Spacer()
                                    textStyle(txt: "\(String(temp.temp_c ?? 0.0))°")
